@@ -7,7 +7,7 @@ import (
 
 var _ sdk.Msg = &MsgCreateToken{}
 
-func NewMsgCreateToken(creator string, symbol string, originalSymbol string, desc string, wholeName string, totalSupply int32, own string, mintable bool) *MsgCreateToken {
+func NewMsgCreateToken(creator string, symbol string, originalSymbol string, desc string, wholeName string, totalSupply int64, own string, mintable bool) *MsgCreateToken {
 	return &MsgCreateToken{
 		Creator:        creator,
 		Symbol:         symbol,
@@ -51,7 +51,7 @@ func (msg *MsgCreateToken) ValidateBasic() error {
 
 var _ sdk.Msg = &MsgUpdateToken{}
 
-func NewMsgUpdateToken(creator string, id uint64, symbol string, originalSymbol string, desc string, wholeName string, totalSupply int32, own string, mintable bool) *MsgUpdateToken {
+func NewMsgUpdateToken(creator string, id uint64, symbol string, originalSymbol string, desc string, wholeName string, totalSupply int64, own string, mintable bool) *MsgUpdateToken {
 	return &MsgUpdateToken{
 		Id:             id,
 		Creator:        creator,

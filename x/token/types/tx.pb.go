@@ -34,7 +34,7 @@ type MsgCreateToken struct {
 	OriginalSymbol string `protobuf:"bytes,3,opt,name=originalSymbol,proto3" json:"originalSymbol,omitempty"`
 	Desc           string `protobuf:"bytes,4,opt,name=desc,proto3" json:"desc,omitempty"`
 	WholeName      string `protobuf:"bytes,5,opt,name=wholeName,proto3" json:"wholeName,omitempty"`
-	TotalSupply    int32  `protobuf:"varint,6,opt,name=totalSupply,proto3" json:"totalSupply,omitempty"`
+	TotalSupply    int64  `protobuf:"varint,6,opt,name=totalSupply,proto3" json:"totalSupply,omitempty"`
 	Own            string `protobuf:"bytes,7,opt,name=own,proto3" json:"own,omitempty"`
 	Mintable       bool   `protobuf:"varint,8,opt,name=mintable,proto3" json:"mintable,omitempty"`
 }
@@ -107,7 +107,7 @@ func (m *MsgCreateToken) GetWholeName() string {
 	return ""
 }
 
-func (m *MsgCreateToken) GetTotalSupply() int32 {
+func (m *MsgCreateToken) GetTotalSupply() int64 {
 	if m != nil {
 		return m.TotalSupply
 	}
@@ -179,7 +179,7 @@ type MsgUpdateToken struct {
 	OriginalSymbol string `protobuf:"bytes,4,opt,name=originalSymbol,proto3" json:"originalSymbol,omitempty"`
 	Desc           string `protobuf:"bytes,5,opt,name=desc,proto3" json:"desc,omitempty"`
 	WholeName      string `protobuf:"bytes,6,opt,name=wholeName,proto3" json:"wholeName,omitempty"`
-	TotalSupply    int32  `protobuf:"varint,7,opt,name=totalSupply,proto3" json:"totalSupply,omitempty"`
+	TotalSupply    int64  `protobuf:"varint,7,opt,name=totalSupply,proto3" json:"totalSupply,omitempty"`
 	Own            string `protobuf:"bytes,8,opt,name=own,proto3" json:"own,omitempty"`
 	Mintable       bool   `protobuf:"varint,9,opt,name=mintable,proto3" json:"mintable,omitempty"`
 }
@@ -259,7 +259,7 @@ func (m *MsgUpdateToken) GetWholeName() string {
 	return ""
 }
 
-func (m *MsgUpdateToken) GetTotalSupply() int32 {
+func (m *MsgUpdateToken) GetTotalSupply() int64 {
 	if m != nil {
 		return m.TotalSupply
 	}
@@ -1039,7 +1039,7 @@ func (m *MsgCreateToken) Unmarshal(dAtA []byte) error {
 				break
 			}
 		}
-		fieldNum := int32(wire >> 3)
+		fieldNum := int64(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
 			return fmt.Errorf("proto: MsgCreateToken: wiretype end group for non-group")
@@ -1222,7 +1222,7 @@ func (m *MsgCreateToken) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.TotalSupply |= int32(b&0x7F) << shift
+				m.TotalSupply |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -1320,7 +1320,7 @@ func (m *MsgCreateTokenResponse) Unmarshal(dAtA []byte) error {
 				break
 			}
 		}
-		fieldNum := int32(wire >> 3)
+		fieldNum := int64(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
 			return fmt.Errorf("proto: MsgCreateTokenResponse: wiretype end group for non-group")
@@ -1389,7 +1389,7 @@ func (m *MsgUpdateToken) Unmarshal(dAtA []byte) error {
 				break
 			}
 		}
-		fieldNum := int32(wire >> 3)
+		fieldNum := int64(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
 			return fmt.Errorf("proto: MsgUpdateToken: wiretype end group for non-group")
@@ -1591,7 +1591,7 @@ func (m *MsgUpdateToken) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.TotalSupply |= int32(b&0x7F) << shift
+				m.TotalSupply |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -1689,7 +1689,7 @@ func (m *MsgUpdateTokenResponse) Unmarshal(dAtA []byte) error {
 				break
 			}
 		}
-		fieldNum := int32(wire >> 3)
+		fieldNum := int64(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
 			return fmt.Errorf("proto: MsgUpdateTokenResponse: wiretype end group for non-group")
@@ -1739,7 +1739,7 @@ func (m *MsgDeleteToken) Unmarshal(dAtA []byte) error {
 				break
 			}
 		}
-		fieldNum := int32(wire >> 3)
+		fieldNum := int64(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
 			return fmt.Errorf("proto: MsgDeleteToken: wiretype end group for non-group")
@@ -1840,7 +1840,7 @@ func (m *MsgDeleteTokenResponse) Unmarshal(dAtA []byte) error {
 				break
 			}
 		}
-		fieldNum := int32(wire >> 3)
+		fieldNum := int64(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
 			return fmt.Errorf("proto: MsgDeleteTokenResponse: wiretype end group for non-group")

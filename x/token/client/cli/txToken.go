@@ -1,6 +1,7 @@
 package cli
 
 import (
+	"log"
 	"strconv"
 
 	"github.com/spf13/cobra"
@@ -15,7 +16,7 @@ import (
 
 func CmdCreateToken() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "create-Token [symbol] [originalSymbol] [desc] [wholeName] [totalSupply] [own] [mintable]",
+		Use:   "create-token [symbol] [originalSymbol] [desc] [wholeName] [totalSupply] [own] [mintable]",
 		Short: "Create a new Token",
 		Args:  cobra.ExactArgs(7),
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -35,7 +36,7 @@ func CmdCreateToken() *cobra.Command {
 			if err != nil {
 				return err
 			}
-			argsTotalSupply, err := cast.ToInt32E(args[4])
+			argsTotalSupply, err := cast.ToInt64E(args[4])
 			if err != nil {
 				return err
 			}
@@ -47,12 +48,13 @@ func CmdCreateToken() *cobra.Command {
 			if err != nil {
 				return err
 			}
-
+			cmd.Flags().Set(flags.FlagFrom, argsOwn)
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
 				return err
 			}
-
+			log.Println("create address:", argsOwn)
+			log.Println("create address bech32 []byte:", clientCtx.GetFromAddress())
 			msg := types.NewMsgCreateToken(clientCtx.GetFromAddress().String(), argsSymbol, argsOriginalSymbol, argsDesc, argsWholeName, argsTotalSupply, argsOwn, argsMintable)
 			if err := msg.ValidateBasic(); err != nil {
 				return err
@@ -68,7 +70,7 @@ func CmdCreateToken() *cobra.Command {
 
 func CmdUpdateToken() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "update-Token [id] [symbol] [originalSymbol] [desc] [wholeName] [totalSupply] [own] [mintable]",
+		Use:   "update-token [id] [symbol] [originalSymbol] [desc] [wholeName] [totalSupply] [own] [mintable]",
 		Short: "Update a Token",
 		Args:  cobra.ExactArgs(8),
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -97,7 +99,7 @@ func CmdUpdateToken() *cobra.Command {
 				return err
 			}
 
-			argsTotalSupply, err := cast.ToInt32E(args[5])
+			argsTotalSupply, err := cast.ToInt64E(args[5])
 			if err != nil {
 				return err
 			}
@@ -132,7 +134,7 @@ func CmdUpdateToken() *cobra.Command {
 
 func CmdDeleteToken() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "delete-Token [id]",
+		Use:   "delete-token [id]",
 		Short: "Delete a Token by id",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {

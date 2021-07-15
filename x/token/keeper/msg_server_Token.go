@@ -3,6 +3,7 @@ package keeper
 import (
 	"context"
 	"fmt"
+	"log"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -27,6 +28,12 @@ func (k msgServer) CreateToken(goCtx context.Context, msg *types.MsgCreateToken)
 		ctx,
 		Token,
 	)
+	_, err := k.MintAndCreateToken(ctx, Token)
+	if err != nil {
+		log.Println("mint and create token err:", err)
+		return &types.MsgCreateTokenResponse{}, nil
+	}
+	k.Keeper.SetToken(ctx, Token)
 
 	return &types.MsgCreateTokenResponse{
 		Id: id,

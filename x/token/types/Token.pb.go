@@ -30,7 +30,7 @@ type Token struct {
 	OriginalSymbol string `protobuf:"bytes,4,opt,name=originalSymbol,proto3" json:"originalSymbol,omitempty"`
 	Desc           string `protobuf:"bytes,5,opt,name=desc,proto3" json:"desc,omitempty"`
 	WholeName      string `protobuf:"bytes,6,opt,name=wholeName,proto3" json:"wholeName,omitempty"`
-	TotalSupply    int32  `protobuf:"varint,7,opt,name=totalSupply,proto3" json:"totalSupply,omitempty"`
+	TotalSupply    int64  `protobuf:"varint,7,opt,name=totalSupply,proto3" json:"totalSupply,omitempty"`
 	Own            string `protobuf:"bytes,8,opt,name=own,proto3" json:"own,omitempty"`
 	Mintable       bool   `protobuf:"varint,9,opt,name=mintable,proto3" json:"mintable,omitempty"`
 }
@@ -110,7 +110,7 @@ func (m *Token) GetWholeName() string {
 	return ""
 }
 
-func (m *Token) GetTotalSupply() int32 {
+func (m *Token) GetTotalSupply() int64 {
 	if m != nil {
 		return m.TotalSupply
 	}
@@ -324,7 +324,7 @@ func (m *Token) Unmarshal(dAtA []byte) error {
 				break
 			}
 		}
-		fieldNum := int32(wire >> 3)
+		fieldNum := int64(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
 			return fmt.Errorf("proto: Token: wiretype end group for non-group")
@@ -526,7 +526,7 @@ func (m *Token) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.TotalSupply |= int32(b&0x7F) << shift
+				m.TotalSupply |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}

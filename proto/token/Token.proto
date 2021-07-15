@@ -12,7 +12,7 @@ message Token {
   string originalSymbol = 4; 
   string desc = 5; 
   string wholeName = 6; 
-  int32 totalSupply = 7; 
+  int64 totalSupply = 7; 
   string own = 8; 
   bool mintable = 9; 
 }

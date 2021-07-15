@@ -110,6 +110,8 @@ clean:
 
 # Run a single testnet locally
 localnet: 
+	@echo "start make install and ./scripts/localnet.sh"
+	@make install 
 	./scripts/localnet.sh
 
 .PHONY: localnet

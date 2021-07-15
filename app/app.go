@@ -147,6 +147,7 @@ var (
 		stakingtypes.NotBondedPoolName: {authtypes.Burner, authtypes.Staking},
 		govtypes.ModuleName:            {authtypes.Burner},
 		ibctransfertypes.ModuleName:    {authtypes.Minter, authtypes.Burner},
+		tokentypes.ModuleName:          {authtypes.Minter, authtypes.Burner},
 	}
 )
 
@@ -330,6 +331,9 @@ func New(
 		appCodec,
 		keys[tokentypes.StoreKey],
 		keys[tokentypes.MemStoreKey],
+		app.AccountKeeper,
+		app.BankKeeper,
+		app.GetSubspace(tokentypes.ModuleName),
 	)
 	tokenModule := token.NewAppModule(appCodec, app.TokenKeeper)
 
