@@ -2,11 +2,14 @@ syntax = "proto3";
 package oracleNetworkProtocol.token.token;
 
 // this line is used by starport scaffolding # genesis/proto/import
+import "token/Token.proto";
 
 option go_package = "github.com/oracleNetworkProtocol/token/x/token/types";
 
 // GenesisState defines the token module's genesis state.
 message GenesisState {
     // this line is used by starport scaffolding # genesis/proto/state
+		repeated Token TokenList = 1; // this line is used by starport scaffolding # genesis/proto/stateField
+		uint64 TokenCount = 2; // this line is used by starport scaffolding # genesis/proto/stateField
     // this line is used by starport scaffolding # ibc/genesis/proto
 }

@@ -2,12 +2,51 @@ syntax = "proto3";
 package oracleNetworkProtocol.token.token;
 
 // this line is used by starport scaffolding # proto/tx/import
+import "token/Token.proto";
 
 option go_package = "github.com/oracleNetworkProtocol/token/x/token/types";
 
 // Msg defines the Msg service.
 service Msg {
     // this line is used by starport scaffolding # proto/tx/rpc
+  rpc CreateToken(MsgCreateToken) returns (MsgCreateTokenResponse);
+  rpc UpdateToken(MsgUpdateToken) returns (MsgUpdateTokenResponse);
+  rpc DeleteToken(MsgDeleteToken) returns (MsgDeleteTokenResponse);
 }
 
 // this line is used by starport scaffolding # proto/tx/message
+message MsgCreateToken {
+  string creator = 1;
+  string symbol = 2;
+  string originalSymbol = 3;
+  string desc = 4;
+  string wholeName = 5;
+  int32 totalSupply = 6;
+  string own = 7;
+  bool mintable = 8;
+}
+
+message MsgCreateTokenResponse {
+  uint64 id = 1;
+}
+
+message MsgUpdateToken {
+  string creator = 1;
+  uint64 id = 2;
+  string symbol = 3;
+  string originalSymbol = 4;
+  string desc = 5;
+  string wholeName = 6;
+  int32 totalSupply = 7;
+  string own = 8;
+  bool mintable = 9;
+}
+
+message MsgUpdateTokenResponse { }
+
+message MsgDeleteToken {
+  string creator = 1;
+  uint64 id = 2;
+}
+
+message MsgDeleteTokenResponse { }

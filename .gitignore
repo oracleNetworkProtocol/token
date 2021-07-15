@@ -34,6 +34,7 @@ chaintest
 nor
 #docs
 secret.yml
+node*/
 node/*
 home/*
 home*/

@@ -1,15 +1,16 @@
-
 #!/usr/bin/make -f
-PACKAGES=$(shell go list ./...)
-DOCKER := $(shell which docker)
-DOCKER_BUF := $(DOCKER) run --rm -v $(CURDIR):/workspace --workdir /workspace bufbuild/buf
+
 VERSION := $(shell echo $(shell git describe --tags) | sed 's/^v//')
 COMMIT := $(shell git log -1 --format='%H')
+PACKAGES_NOSIMULATION=$(shell go list ./... | grep -v '/simulation')
 BINDIR ?= $(GOPATH)/bin
+DOCKER := $(shell which docker)
 BUILDDIR ?= $(CURDIR)/build
-
+SIMAPP = ./app
 
 export GO111MODULE = on
+
+# process build tags
 
 build_tags = netgo
 ifeq ($(LEDGER_ENABLED),true)
@@ -47,6 +48,7 @@ comma := ,
 build_tags_comma_sep := $(subst $(whitespace),$(comma),$(build_tags))
 
 # process linker flags
+
 ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=tokend \
 		  -X github.com/cosmos/cosmos-sdk/version.AppName=tokend \
 		  -X github.com/cosmos/cosmos-sdk/version.Version=$(VERSION) \
@@ -68,8 +70,9 @@ all: tools install lint
 include contrib/devtools/Makefile
 
 ###############################################################################
-###                           Install                                       ###
+###                                  Build                                  ###
 ###############################################################################
+
 build: go.sum
 ifeq ($(OS),Windows_NT)
 	go build $(BUILD_FLAGS) -o build/tokend.exe ./cmd/tokend
@@ -77,24 +80,36 @@ else
 	go build $(BUILD_FLAGS) -o build/tokend ./cmd/tokend
 endif
 
+build-linux: go.sum
+	LEDGER_ENABLED=false GOOS=linux GOARCH=amd64 $(MAKE) build
 
 install: go.sum
-		@echo "--> Installing tokend"
-		@go install $(BUILD_FLAGS) ./cmd/tokend
+	go install $(BUILD_FLAGS) ./cmd/tokend
+
+###############################################################################
+###                          Tools & Dependencies                           ###
+###############################################################################
+
+go-mod-cache: go.sum
+	@echo "--> Download go modules to local cache"
+	@go mod download
 
 go.sum: go.mod
 	@echo "--> Ensure dependencies have not been modified"
-	GO111MODULE=on go mod verify
+	@go mod verify
+	@go mod tidy
+
+clean:
+	rm -rf build/
+
+.PHONY: go-mod-cache clean
 
 ###############################################################################
-###                                Protobuf                                 ###
+###                               Localnet                                  ###
 ###############################################################################
 
-proto-gen:
-	@echo "Generating Protobuf files"
-	$(DOCKER) run --rm -v $(CURDIR):/workspace --workdir /workspace plugchaintoken/token-proto-gen sh ./scripts/protocgen.sh
+# Run a single testnet locally
+localnet: 
+	./scripts/localnet.sh
 
-proto-lint:
-	@$(DOCKER_BUF) check lint --error-format=json
-
-.PHONY proto-gen proto-lint
+.PHONY: localnet

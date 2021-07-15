@@ -1,0 +1,18 @@
+syntax = "proto3";
+package oracleNetworkProtocol.token.token;
+
+option go_package = "github.com/oracleNetworkProtocol/token/x/token/types";
+
+import "gogoproto/gogo.proto";
+
+message Token {
+  string creator = 1;
+  uint64 id = 2;
+  string symbol = 3; 
+  string originalSymbol = 4; 
+  string desc = 5; 
+  string wholeName = 6; 
+  int32 totalSupply = 7; 
+  string own = 8; 
+  bool mintable = 9; 
+}
