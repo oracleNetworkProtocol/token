@@ -10,7 +10,7 @@ import (
 
 // App implements the common methods for a Cosmos SDK-based application
 // specific blockchain.
-type CosmosApp interface {
+type TokenApp interface {
 	// The assigned name of the app.
 	Name() string
 
